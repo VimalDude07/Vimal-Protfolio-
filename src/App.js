@@ -273,7 +273,7 @@ const Portfolio = () => {
                 View My Work
               </button>
               <a
-                href="https://drive.google.com/file/d/1eFl3L3265EZd2-HTXreQ3nupcoSg2IBg/view?usp=drive_link" // Replace with your real resume link
+                href="https://drive.google.com/file/d/1iYxF-Si3XrwIgQqmR8Zbz9NGA96BAKuY/view?usp=drive_link" // Replace with your real resume link
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300"
