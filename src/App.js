@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import emailjs from "emailjs-com";
-import project1 from "./image/Geographical.png";
+import project1 from "./image/countryMap.webp";
 import project2 from "./image/zomatoPage.png";
 import project3 from "./image/myntraApp.png";
 import profileImg from "./image/vimal.jpg";
@@ -15,6 +15,37 @@ const Portfolio = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [displayedText, setDisplayedText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [showContent, setShowContent] = useState(false);
+
+  // Scroll reveal hook
+  const useScrollReveal = () => {
+    useEffect(() => {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-reveal");
+            entry.target.classList.remove("opacity-0", "translate-y-8");
+          }
+        });
+      }, observerOptions);
+
+      // Observe all elements with scroll-reveal class
+      const elements = document.querySelectorAll(".scroll-reveal");
+      elements.forEach((el) => observer.observe(el));
+
+      return () => observer.disconnect();
+    }, []);
+  };
+
+  useScrollReveal();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,10 +148,10 @@ const Portfolio = () => {
 
     emailjs
       .sendForm(
-        "service_y5iqjyh", // from EmailJS dashboard
-        "template_ujxtcg4", // from EmailJS dashboard
+        "service_y5iqjyh",
+        "template_ujxtcg4",
         form.current,
-        "FFQHSLDXdgWSjrbGe" // from EmailJS Account -> API Keys
+        "FFQHSLDXdgWSjrbGe"
       )
       .then(
         () => {
@@ -133,13 +164,82 @@ const Portfolio = () => {
         }
       );
   };
+  const fullName = "Vimal R";
+  const typingSpeed = 150;
+  const pauseAfterTyping = 1000;
+
+  useEffect(() => {
+    if (currentIndex < fullName.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev + fullName[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
+      }, typingSpeed);
+
+      return () => clearTimeout(timeout);
+    } else if (!isTypingComplete) {
+      setIsTypingComplete(true);
+      setTimeout(() => {
+        setShowContent(true);
+      }, pauseAfterTyping);
+    }
+  }, [currentIndex, fullName, isTypingComplete]);
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <style jsx>{`
+        .scroll-reveal {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .animate-reveal {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+
+        .scroll-reveal.delay-100 {
+          transition-delay: 0.1s;
+        }
+
+        .scroll-reveal.delay-200 {
+          transition-delay: 0.2s;
+        }
+
+        .scroll-reveal.delay-300 {
+          transition-delay: 0.3s;
+        }
+
+        .scroll-reveal.delay-400 {
+          transition-delay: 0.4s;
+        }
+
+        .scroll-reveal.delay-500 {
+          transition-delay: 0.5s;
+        }
+
+        .scroll-reveal.delay-600 {
+          transition-delay: 0.6s;
+        }
+
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+      `}</style>
+
       {/* Navigation */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          isScrolled ? "bg-white  shadow-lg" : "bg-transparent"
+          isScrolled ? "bg-white shadow-lg" : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -149,7 +249,6 @@ const Portfolio = () => {
             </div>
 
             {/* Desktop Menu */}
-
             <div className="hidden md:flex space-x-8">
               {["home", "about", "skills", "projects", "contact"].map(
                 (item) => (
@@ -204,10 +303,10 @@ const Portfolio = () => {
 
         <div
           className={`fixed top-0 right-0 h-full w-[240px] bg-white shadow-2xl transform transition-transform duration-500 ease-in-out z-40 md:hidden ${
-            isMenuOpen ? "translate-x-0  " : "translate-x-full"
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="pt-20 px-6 ">
+          <div className="pt-20 px-6">
             <div className="space-y-1">
               {["home", "about", "skills", "projects", "contact"].map(
                 (item, index) => (
@@ -244,10 +343,7 @@ const Portfolio = () => {
         id="home"
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
       >
-        {/* Left Blur */}
         <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-white/80 to-transparent backdrop-blur-sm z-10 pointer-events-none" />
-
-        {/* Right Blur */}
         <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-white/80 to-transparent backdrop-blur-sm z-10 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20">
@@ -255,14 +351,16 @@ const Portfolio = () => {
             <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
               VR
             </div>
-
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-600 to-purple-800 bg-clip-text text-transparent">
-              Vimal R
-            </h1>
+            <div className="relative mb-8">
+              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-600 to-purple-800 bg-clip-text text-transparent tracking-tight">
+                {displayedText}
+                <span className="inline-block w-1 h-16 md:h-20 lg:h-24 ml-2"></span>
+              </h1>
+            </div>
 
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-              Frontend Developer & UI/UX Designer creating beautiful, functional
-              digital experiences
+              Frontend Developer & UI/UX Designer Creating Beautiful, Functional
+              Digital Experiences
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -273,7 +371,7 @@ const Portfolio = () => {
                 View My Work
               </button>
               <a
-                href="https://drive.google.com/file/d/1iYxF-Si3XrwIgQqmR8Zbz9NGA96BAKuY/view?usp=drive_link" // Replace with your real resume link
+                href="https://drive.google.com/file/d/1TTNS5oDkNzuGMq-LFSSyPbpJ7VLoYvty/view?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300"
@@ -282,14 +380,13 @@ const Portfolio = () => {
               </a>
             </div>
           </div>
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"></div>
         </div>
       </section>
 
       {/* About Section */}
       <section id="about" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               About Me
             </h2>
@@ -297,7 +394,7 @@ const Portfolio = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <div className="space-y-6 scroll-reveal delay-200">
               <p className="text-lg text-gray-600 leading-relaxed">
                 I'm a passionate frontend developer eager to start my career in
                 building modern, user-friendly web applications. I specialize in
@@ -305,7 +402,7 @@ const Portfolio = () => {
                 transforming ideas into responsive and visually appealing
                 designs.
               </p>
-              <div>
+              <div className="scroll-reveal delay-300">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Education Details:
                 </h3>
@@ -324,7 +421,7 @@ const Portfolio = () => {
                   </li>
                 </ul>
               </div>
-              <div>
+              <div className="scroll-reveal delay-400">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Courses:
                 </h3>
@@ -333,7 +430,7 @@ const Portfolio = () => {
                   GUMMIDIPOONDI, INDIA. June 2024 – May 2025
                 </p>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 scroll-reveal delay-500">
                 <div className="flex items-center gap-2 text-gray-600">
                   <svg
                     className="w-5 h-5 text-blue-600"
@@ -390,15 +487,13 @@ const Portfolio = () => {
                 </div>
               </div>
             </div>
-            <div className="relative">
-              <div className="w-full h-96 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center">
-                <div className="w-[250px] h-[250px] mx-auto  overflow-hidden border-4 border-white shadow-xl">
-                  <img
-                    src={profileImg}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            <div className="relative scroll-reveal delay-600">
+              <div className="w-[400px] h-[400px] bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto">
+                <img
+                  src={profileImg}
+                  alt="Profile"
+                  className="w-full h-full rounded-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -406,106 +501,91 @@ const Portfolio = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Skills & Expertise
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
-          </div>
+<section id="skills" className="py-20 bg-gray-50">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    {/* Section Title */}
+    <div className="text-center mb-16 scroll-reveal">
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Skills & Expertise
+      </h2>
+      <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
+    </div>
 
-          {/* Skills Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {skillCategories.map((category, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">{category.icon}</span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {category.name}
-                  </h3>
-                </div>
-                <div className="space-y-2">
-                  {category.items.map((item, itemIndex) => (
-                    <div
-                      key={itemIndex}
-                      className="flex items-center justify-between"
+    {/* Skills Grid */}
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      {skillCategories.map((category, index) => (
+        <div
+          key={index}
+          className={`bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 scroll-reveal delay-${
+            (index + 1) * 100
+          }`}
+        >
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">{category.icon}</span>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900">{category.name}</h3>
+          </div>
+          <div className="space-y-2">
+            {category.items.map((item, itemIndex) => (
+              <div key={itemIndex} className="flex items-center justify-between">
+                <span className="text-gray-600 text-sm">{item}</span>
+                <div className="flex space-x-1">
+                  {[...Array(5)].map((_, starIndex) => (
+                    <svg
+                      key={starIndex}
+                      className={`w-3 h-3 ${
+                        starIndex < 4 ? "text-yellow-400 fill-current" : "text-gray-300"
+                      }`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
                     >
-                      <span className="text-gray-600 text-sm">{item}</span>
-                      <div className="flex space-x-1">
-                        {[...Array(5)].map((_, starIndex) => (
-                          <svg
-                            key={starIndex}
-                            className={`w-3 h-3 ${
-                              starIndex < 4
-                                ? "text-yellow-400 fill-current"
-                                : "text-gray-300"
-                            }`}
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-                    </div>
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
                   ))}
                 </div>
               </div>
             ))}
           </div>
+        </div>
+      ))}
+    </div>
 
-          {/* Skills Animation */}
-          <div className="relative overflow-hidden">
-            <div className="flex animate-scroll space-x-8 py-6">
-              {[...skills, ...skills, ...skills].map((skill, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-48 bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                  <div className="text-center">
-                    <div className="text-4xl mb-2 flex justify-center">
-                      <img width={50} height={50} src={skill.icon} />
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {skill.name}
-                    </h3>
-                  </div>
-                </div>
-              ))}
+    {/* Skills Animation Carousel */}
+    <div className="relative overflow-hidden scroll-reveal delay-400">
+      <div className="relative z-0 flex animate-scroll space-x-8 py-6">
+        {[...skills, ...skills, ...skills].map((skill, index) => (
+          <div
+            key={index}
+            className="flex-shrink-0 w-48 bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+          >
+            <div className="text-center">
+              <div className="text-4xl mb-2 flex justify-center">
+                <img
+                  width={50}
+                  height={50}
+                  src={skill.icon}
+                  alt={skill.name}
+                />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">{skill.name}</h3>
             </div>
           </div>
+        ))}
+      </div>
 
-          {/* Gradient overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-10"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-10"></div>
-        </div>
-
-        <style jsx>{`
-          @keyframes scroll {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(-100%);
-            }
-          }
-
-          .animate-scroll {
-            animation: scroll 30s linear infinite;
-          }
-        `}</style>
-      </section>
+      {/* Gradient Overlays (hide side shadows) */}
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-20"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-20"></div>
+    </div>
+  </div>
+</section>
+        
 
       {/* Projects Section */}
       <section id="projects" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Featured Projects
             </h2>
@@ -519,6 +599,8 @@ const Portfolio = () => {
                 className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
               >
                 <div className="relative overflow-hidden">
+                  {" "}
+                  {/* Keep this for hover scale to work */}
                   <img
                     src={project.image}
                     alt={project.title}
@@ -595,7 +677,7 @@ const Portfolio = () => {
         className="py-20 bg-gradient-to-br from-blue-50 to-purple-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal opacity-0 translate-y-8">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Get In Touch
             </h2>
@@ -606,9 +688,12 @@ const Portfolio = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
+            {/* Left Side */}
             <div className="space-y-8">
-              <div className="flex items-center space-x-4">
+              {/* Email */}
+              <div className="flex items-center space-x-4 scroll-reveal opacity-0 translate-y-8">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  {/* Email Icon */}
                   <svg
                     className="w-5 h-5 text-white"
                     fill="none"
@@ -629,7 +714,8 @@ const Portfolio = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
+              {/* Phone */}
+              <div className="flex items-center space-x-4 scroll-reveal opacity-0 translate-y-8">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                   <svg
                     className="w-5 h-5 text-white"
@@ -651,7 +737,8 @@ const Portfolio = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
+              {/* Location */}
+              <div className="flex items-center space-x-4 scroll-reveal opacity-0 translate-y-8">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                   <svg
                     className="w-5 h-5 text-white"
@@ -681,12 +768,13 @@ const Portfolio = () => {
                 </div>
               </div>
 
-              <div className="flex space-x-4 pt-4">
+              {/* Social */}
+              <div className="flex space-x-4 pt-4 scroll-reveal opacity-0 translate-y-8">
                 <a
                   href="https://github.com/VimalDude07"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+                  className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors transform hover:scale-110"
                 >
                   <svg
                     className="w-5 h-5 text-white"
@@ -700,26 +788,11 @@ const Portfolio = () => {
                     />
                   </svg>
                 </a>
-                {/* <a
-                  href="#"
-                  className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors"
-                >
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </a> */}
               </div>
             </div>
 
-            <form ref={form} onSubmit={sendEmail}>
+            {/* Contact Form */}
+            <div className="scroll-reveal opacity-0 translate-y-8">
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -729,7 +802,7 @@ const Portfolio = () => {
                     type="text"
                     name="name"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
                     placeholder="Your Name"
                   />
                 </div>
@@ -741,7 +814,7 @@ const Portfolio = () => {
                     type="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -753,18 +826,19 @@ const Portfolio = () => {
                     name="message"
                     rows={4}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all hover:border-blue-300"
                     placeholder="Tell me about your project..."
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                  onClick={sendEmail}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/25"
                 >
                   Send Message
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>
