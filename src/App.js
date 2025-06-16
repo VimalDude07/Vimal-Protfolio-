@@ -148,7 +148,7 @@ const Portfolio = () => {
 
     emailjs
       .sendForm(
-        "service_y5iqjyh",
+        "service_oejhluf",
         "template_ujxtcg4",
         form.current,
         "FFQHSLDXdgWSjrbGe"
@@ -501,86 +501,94 @@ const Portfolio = () => {
       </section>
 
       {/* Skills Section */}
-<section id="skills" className="py-20 bg-gray-50">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-    {/* Section Title */}
-    <div className="text-center mb-16 scroll-reveal">
-      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        Skills & Expertise
-      </h2>
-      <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
-    </div>
-
-    {/* Skills Grid */}
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-      {skillCategories.map((category, index) => (
-        <div
-          key={index}
-          className={`bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 scroll-reveal delay-${
-            (index + 1) * 100
-          }`}
-        >
-          <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">{category.icon}</span>
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900">{category.name}</h3>
+      <section id="skills" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          {/* Section Title */}
+          <div className="text-center mb-16 scroll-reveal">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Skills & Expertise
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
           </div>
-          <div className="space-y-2">
-            {category.items.map((item, itemIndex) => (
-              <div key={itemIndex} className="flex items-center justify-between">
-                <span className="text-gray-600 text-sm">{item}</span>
-                <div className="flex space-x-1">
-                  {[...Array(5)].map((_, starIndex) => (
-                    <svg
-                      key={starIndex}
-                      className={`w-3 h-3 ${
-                        starIndex < 4 ? "text-yellow-400 fill-current" : "text-gray-300"
-                      }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
+
+          {/* Skills Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {skillCategories.map((category, index) => (
+              <div
+                key={index}
+                className={`bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 scroll-reveal delay-${
+                  (index + 1) * 100
+                }`}
+              >
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">{category.icon}</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {category.name}
+                  </h3>
+                </div>
+                <div className="space-y-2">
+                  {category.items.map((item, itemIndex) => (
+                    <div
+                      key={itemIndex}
+                      className="flex items-center justify-between"
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
+                      <span className="text-gray-600 text-sm">{item}</span>
+                      <div className="flex space-x-1">
+                        {[...Array(5)].map((_, starIndex) => (
+                          <svg
+                            key={starIndex}
+                            className={`w-3 h-3 ${
+                              starIndex < 4
+                                ? "text-yellow-400 fill-current"
+                                : "text-gray-300"
+                            }`}
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      ))}
-    </div>
 
-    {/* Skills Animation Carousel */}
-    <div className="relative overflow-hidden scroll-reveal delay-400">
-      <div className="relative z-0 flex animate-scroll space-x-8 py-6">
-        {[...skills, ...skills, ...skills].map((skill, index) => (
-          <div
-            key={index}
-            className="flex-shrink-0 w-48 bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            <div className="text-center">
-              <div className="text-4xl mb-2 flex justify-center">
-                <img
-                  width={50}
-                  height={50}
-                  src={skill.icon}
-                  alt={skill.name}
-                />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900">{skill.name}</h3>
+          {/* Skills Animation Carousel */}
+          <div className="relative overflow-hidden scroll-reveal delay-400">
+            <div className="relative z-0 flex animate-scroll space-x-8 py-6">
+              {[...skills, ...skills, ...skills].map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-48 bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                >
+                  <div className="text-center">
+                    <div className="text-4xl mb-2 flex justify-center">
+                      <img
+                        width={50}
+                        height={50}
+                        src={skill.icon}
+                        alt={skill.name}
+                      />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {skill.name}
+                    </h3>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
 
-      {/* Gradient Overlays (hide side shadows) */}
-      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-20"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-20"></div>
-    </div>
-  </div>
-</section>
-        
+            {/* Gradient Overlays (hide side shadows) */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-20"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-20"></div>
+          </div>
+        </div>
+      </section>
 
       {/* Projects Section */}
       <section id="projects" className="py-20 bg-white">
@@ -793,51 +801,56 @@ const Portfolio = () => {
 
             {/* Contact Form */}
             <div className="scroll-reveal opacity-0 translate-y-8">
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
-                    placeholder="Your Name"
-                  />
+              <form
+                ref={form}
+                onSubmit={sendEmail}
+                className="scroll-reveal opacity-0 translate-y-8"
+              >
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                      placeholder="Your Name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      rows={4}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all hover:border-blue-300"
+                      placeholder="Tell me about your project..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/25"
+                  >
+                    Send Message
+                  </button>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    rows={4}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all hover:border-blue-300"
-                    placeholder="Tell me about your project..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  onClick={sendEmail}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/25"
-                >
-                  Send Message
-                </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
