@@ -488,7 +488,7 @@ const Portfolio = () => {
               </div>
             </div>
             <div className="relative scroll-reveal delay-600">
-              <div className="w-[400px] h-[400px] bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto">
+              <div className="w-[350px] h-[350px] bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto">
                 <img
                   src={profileImg}
                   alt="Profile"
