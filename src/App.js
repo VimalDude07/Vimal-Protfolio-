@@ -551,7 +551,7 @@ const Portfolio = () => {
       ))}
     </div>
 
-    
+    {/* Skills Animation Carousel */}
     <div className="relative overflow-hidden scroll-reveal delay-400">
       <div className="relative z-0 flex animate-scroll space-x-8 py-6">
         {[...skills, ...skills, ...skills].map((skill, index) => (
